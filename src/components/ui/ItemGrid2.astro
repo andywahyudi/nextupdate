@@ -18,6 +18,7 @@ const {
   title: titleClass = "",
   description: descriptionClass = "",
   icon: defaultIconClass = "text-primary",
+  link: linkClass = "",
 } = classes;
 ---
 
@@ -26,7 +27,9 @@ const {
     <div
       class={twMerge(
         `grid gap-8 gap-x-12 sm:gap-y-8 ${
-          columns === 4
+          columns === 5
+            ? "lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3"
+            : columns === 4
             ? "lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2"
             : columns === 3
             ? "lg:grid-cols-3 sm:grid-cols-2"
@@ -42,9 +45,11 @@ const {
           title,
           description,
           icon,
+          link,
           callToAction,
           classes: itemClasses = {},
         }) => (
+        <a href={link} class={linkClass}>
           <div
             class={twMerge(
               "relative flex flex-col",
@@ -52,23 +57,23 @@ const {
               itemClasses?.panel
             )}
           >
-            {(icon || defaultIcon) && (
-              <Icon
-                name={icon || defaultIcon}
-                class={twMerge(
-                  "mb-2 w-10 h-10",
-                  defaultIconClass,
-                  itemClasses?.icon
-                )}
-              />
-            )}
-            <div
+          <div
               class={twMerge(
-                "text-xl font-bold",
+                "flex items-center", // Add flex and items-center to align icon and title
                 titleClass,
                 itemClasses?.title
               )}
             >
+              {(icon || defaultIcon) && (
+                <Icon
+                  name={icon || defaultIcon}
+                  class={twMerge(
+                    "mr-2 w-10 h-10", // Add margin-right to create space between icon and title
+                    defaultIconClass,
+                    itemClasses?.icon
+                  )}
+                />
+              )}
               {title}
             </div>
             {description && (
@@ -87,6 +92,7 @@ const {
               </div>
             )}
           </div>
+        </a>
         )
       )}
     </div>
